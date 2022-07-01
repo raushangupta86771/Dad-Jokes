@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .container {
+            position: relative;
+            font-family: arial;
+            font-size: 1.3rem;
+            margin: auto;
+            width: 26rem;
+            height: 18rem;
+            outline: dashed 1px black;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            background-color: blanchedalmond;
+            border-radius: 1.2rem;
+        }
+
+        h6 {
+            display: block;
+            color: rgb(138, 8, 189);
+            font-family: serif;
+        }
+
+        .insider {
+            position: relative;
+            top: 6rem;
+        }
+
+        .joke {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="insider">
+            <h6>Best Jokes to make your day...</h6>
+            <div class="joke" id="joke">Joke is loading...</div>
+            <button id="next" class="btn">Next Joke</button>
+        </div>
+    </div>
+
+
+    <script>
+        const joke = document.getElementById('joke');
+        const jokeBtn = document.getElementById('next');
+
+
+        //we are doing this by promise method
+        /*function generateJokes() {
+            const setHeader = {
+                headers: {
+                    Accept: "application/json"
+                }
+            };
+            fetch('https://icanhazdadjoke.com', setHeader)
+                .then((res) => res.json()) //here we were getting data in html format so converting it into JSON we used .JSON(), and here res is our data which we fetched
+                .then((data) => {
+                    joke.innerHTML = data.joke;
+                })
+                .catch((error) => {
+                    joke.innerHTML = "OOPS Better Luck next time..";
+                });
+        }*/
+
+
+        //now we are doing this by async await method
+        const generateJokes = async () => {
+            try {
+                const setHeader = {
+                    headers: {
+                        Accept: "application/json"
+                    }
+                };
+                const res = await fetch("https://icanhazdadjoke.com", setHeader)
+                const data = await res.json();
+
+                joke.innerHTML = data.joke;
+            }
+            catch (e) {
+                joke.innerHTML = "OOPS Better Luck next time..";
+            }
+        }
+
+        jokeBtn.addEventListener('click', generateJokes);
+        generateJokes();
+    </script>
+</body>
+
+</html>
